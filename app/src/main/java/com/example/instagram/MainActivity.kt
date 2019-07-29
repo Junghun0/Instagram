@@ -2,7 +2,6 @@ package com.example.instagram
 
 import android.content.Intent
 import android.os.Bundle
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
@@ -23,12 +22,12 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
-        val navController = findNavController(R.id.tab_nav_host_fragment)
+        val navController = findNavController(R.id.nav_host_fragment)
         setupActionBarWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.tab_nav_host_fragment)
+        val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
