@@ -54,4 +54,7 @@ dependencies {
     // For Kotlin use lifecycle-viewmodel-ktx
     // alternatively - just LiveData
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+
+    //circleimageview
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
 }
