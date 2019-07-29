@@ -9,5 +9,14 @@
         android:id="@+id/tabFragment"
         android:name="com.example.instagram.ui.TabFragment"
         android:label="fragment_tab"
-        tools:layout="@layout/fragment_tab" />
+        tools:layout="@layout/fragment_tab" >
+        <action
+            android:id="@+id/action_tabFragment_to_createPostFragment"
+            app:destination="@id/createPostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="com.example.instagram.ui.CreatePostFragment"
+        android:label="fragment_create_post"
+        tools:layout="@layout/fragment_create_post" />
 </navigation>

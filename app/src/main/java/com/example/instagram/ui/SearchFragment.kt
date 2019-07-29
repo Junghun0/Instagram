@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.R
 import com.example.instagram.databinding.ItemPostBinding
 import com.example.instagram.model.Post
+import com.example.instagram.util.findParentNavController
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
@@ -41,6 +42,11 @@ class SearchFragment : Fragment() {
 
         adapter = PostAdapter(options)
         recycler_view.adapter = adapter
+
+        create_button.setOnClickListener {
+            findParentNavController()
+                ?.navigate(R.id.action_tabFragment_to_createPostFragment)
+        }
     }
 
     override fun onStart() {
