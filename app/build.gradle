@@ -61,4 +61,6 @@ dependencies {
 
     //circleimageview
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+    //firebase ui
+    implementation 'com.firebaseui:firebase-ui-firestore:5.0.0'
 }
