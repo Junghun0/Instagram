@@ -52,10 +52,11 @@ class CreatePostFragment : Fragment() {
 
                         //firebase에 데이터 입력
                         viewModel.createPost(Post("go9018@gmail.com",downloadUri.toString()))
+                        //이전화면으로 이동
+                        findNavController().popBackStack()
 
                         launch(Dispatchers.Main) {
                             //메인스레드 UI 갱신
-                            findNavController().popBackStack()
                         }
                     }
             }

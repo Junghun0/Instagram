@@ -5,7 +5,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
+
 apply plugin: 'com.google.gms.google-services'
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion 29
@@ -50,13 +53,11 @@ dependencies {
 
     implementation 'androidx.navigation:navigation-fragment-ktx:2.0.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.0.0'
-    def lifecycle_version = "2.0.0"
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha02"
     // alternatively - just ViewModel
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha02'
-    // For Kotlin use lifecycle-viewmodel-ktx
     // alternatively - just LiveData
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-alpha02'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-alpha02'
