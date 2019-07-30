@@ -7,6 +7,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import com.example.instagram.LoginActivity
 import com.example.instagram.R
+import com.example.instagram.databinding.FragmentAccountBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -19,7 +20,7 @@ class AccountFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_account, container, false)
         setHasOptionsMenu(true)
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -29,7 +30,13 @@ class AccountFragment : Fragment() {
 
         googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
 
-        return inflater.inflate(R.layout.fragment_account, container, false)
+        val binding = FragmentAccountBinding.bind(view)
+
+        FirebaseAuth.getInstance().currentUser?.let{user ->
+            binding.user = user
+        }
+
+        return binding.root
     }
 
 
