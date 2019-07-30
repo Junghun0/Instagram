@@ -14,6 +14,7 @@ import java.io.InputStream
 
 class CreatePostViewModel: ViewModel(){
 
+    private val db = FirebaseFirestore.getInstance()
     val isProgress = MutableLiveData<Boolean>()
 
     init {
@@ -51,9 +52,17 @@ class CreatePostViewModel: ViewModel(){
 
     fun updatePost(post: Post, callback: () -> Unit) {
         isProgress.postValue(true)
-        val db = FirebaseFirestore.getInstance()
 
         db.collection("insta_posts").document(post.uid).set(post).addOnCompleteListener {
+            isProgress.postValue(false)
+            callback.invoke()
+        }
+    }
+
+    fun deletePost(post: Post, callback: () -> Unit){
+        isProgress.postValue(true)
+
+        db.collection("insta_posts").document(post.uid).delete().addOnCompleteListener {
             isProgress.postValue(false)
             callback.invoke()
         }
