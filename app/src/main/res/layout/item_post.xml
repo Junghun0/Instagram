@@ -9,6 +9,8 @@
     </data>
 
     <com.example.instagram.util.SquareImageView
+        android:id="@+id/imageView_square"
+        android:transitionName="image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         bind:imageUrl2="@{post.imageUrl2}"

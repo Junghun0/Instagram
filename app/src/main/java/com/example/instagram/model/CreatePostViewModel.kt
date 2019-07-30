@@ -22,7 +22,7 @@ class CreatePostViewModel: ViewModel(){
     }
 
     fun uploadImage(stream: InputStream): Uri {
-        isProgress.value = true
+        isProgress.postValue(true)
         val ref = FirebaseStorage.getInstance().reference
             .child("images/${System.currentTimeMillis()}.jpg")
 
@@ -33,15 +33,15 @@ class CreatePostViewModel: ViewModel(){
                     throw it
                 }
             }
-            isProgress.value = false
+            isProgress.postValue(false)
             return@Continuation ref.downloadUrl
         }))
     }
 
     fun createPost(post: Post): DocumentReference {
-        isProgress.value = true
+        isProgress.postValue(true)
         val db = FirebaseFirestore.getInstance()
-        isProgress.value = false
+        isProgress.postValue(false)
         return Tasks.await(db.collection("insta_posts").add(post))
     }
 }

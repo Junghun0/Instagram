@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
+import androidx.transition.Explode
 import com.example.instagram.R
-import kotlinx.android.synthetic.main.fragment_post_detail.*
+import com.example.instagram.databinding.FragmentPostDetailBinding
 
 class PostDetailFragment : Fragment() {
     private val args by navArgs<PostDetailFragmentArgs>()
@@ -18,14 +18,17 @@ class PostDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
+        sharedElementEnterTransition = Explode()
+        sharedElementReturnTransition = Explode()
+
         return inflater.inflate(R.layout.fragment_post_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Glide.with(view)
-            .load(args.post.imageUrl2)
-            .into(imageView)
+
+        val binding = FragmentPostDetailBinding.bind(view)
+        binding.post = args.post
     }
 }

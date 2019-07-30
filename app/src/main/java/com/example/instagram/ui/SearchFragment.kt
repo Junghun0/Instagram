@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.R
 import com.example.instagram.databinding.ItemPostBinding
@@ -40,9 +41,12 @@ class SearchFragment : Fragment() {
             .setQuery(query, Post::class.java)
             .build()
 
-        adapter = PostAdapter(options){post ->
+        adapter = PostAdapter(options){view , post ->
+            val extras = FragmentNavigatorExtras(
+                view to "image"
+            )
             val action = TabFragmentDirections.actionTabFragmentToPostDetailFragment(post)
-            findParentNavController()?.navigate(action)
+            findParentNavController()?.navigate(action, extras)
         }
         recycler_view.adapter = adapter
 
@@ -63,7 +67,8 @@ class SearchFragment : Fragment() {
     }
 
     class PostAdapter(options: FirestoreRecyclerOptions<Post>
-    ,val callback: (Post) -> Unit): FirestoreRecyclerAdapter<Post, PostAdapter.PostViewHolder>(options){
+                      , private val callback: (View, Post) -> Unit)
+        : FirestoreRecyclerAdapter<Post, PostAdapter.PostViewHolder>(options){
         class PostViewHolder(val binding: ItemPostBinding): RecyclerView.ViewHolder(binding.root)
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -76,7 +81,7 @@ class SearchFragment : Fragment() {
         override fun onBindViewHolder(holder: PostViewHolder, position: Int, model: Post) {
             holder.binding.post = model
             holder.binding.root.setOnClickListener {
-                callback.invoke(model)
+                callback.invoke(holder.binding.imageViewSquare, model)
             }
         }
 

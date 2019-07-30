@@ -22,3 +22,12 @@ fun imageUrl2(view: ImageView, uri: String){
         .placeholder(R.drawable.placeholder_24dp)
         .into(view)
 }
+
+@BindingAdapter("imageUrl3")
+fun imageUrl3(view: CircleImageView, uri: String){
+    Glide.with(view)
+        .load(uri)
+        .placeholder(R.drawable.placeholder_24dp)
+        .into(view)
+}
+

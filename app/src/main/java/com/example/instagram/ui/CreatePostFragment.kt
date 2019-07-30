@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.instagram.R
 import com.example.instagram.model.CreatePostViewModel
 import com.example.instagram.model.Post
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_create_post.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,12 +52,18 @@ class CreatePostFragment : Fragment() {
                         val downloadUri = viewModel.uploadImage(stream!!)
 
                         //firebase에 데이터 입력
-                        viewModel.createPost(Post("go9018@gmail.com",downloadUri.toString()))
-                        //이전화면으로 이동
-                        findNavController().popBackStack()
+                        viewModel.createPost(Post(
+                            "go9018@gmail.com",
+                            FirebaseAuth.getInstance().currentUser?.email,
+                            FirebaseAuth.getInstance().currentUser?.photoUrl?.toString(),
+                            downloadUri.toString(),
+                            description_editText.text.toString()
+                        ))
 
                         launch(Dispatchers.Main) {
                             //메인스레드 UI 갱신
+                            //이전화면으로 이동
+                            findNavController().popBackStack()
                         }
                     }
             }
