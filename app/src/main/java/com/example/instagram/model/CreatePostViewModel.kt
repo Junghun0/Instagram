@@ -38,18 +38,17 @@ class CreatePostViewModel: ViewModel(){
         }))
     }
 
-    fun createPost(post: Post): Void {
-//        isProgress.postValue(true)
+    fun createPost(post: Post) {
+        isProgress.postValue(true)
         val db = FirebaseFirestore.getInstance()
 
         val ref = db.collection("insta_posts").document()
         post.uid = ref.id
 
-        return Tasks.await(ref.set(post).addOnCompleteListener {
-//            isProgress.postValue(false)
-        })
+        ref.set(post).addOnCompleteListener {
+            isProgress.postValue(false)
+        }
     }
-
 
     fun updatePost(post: Post, callback: () -> Unit) {
         isProgress.postValue(true)
@@ -69,25 +68,3 @@ class CreatePostViewModel: ViewModel(){
         }
     }
 }
-
-/*    suspend fun uploadPostAsync(stream: InputStream, text: String) {
-        isProgress.postValue(true)
-        val ref = FirebaseStorage.getInstance().reference
-            .child("images/${System.currentTimeMillis()}.jpg")
-
-        ref.putStream(stream).await()
-
-        val downloadUri = ref.downloadUrl.await()
-
-        val post = Post(
-            "a811219@gmail.com",
-            FirebaseAuth.getInstance().currentUser?.email,
-            FirebaseAuth.getInstance().currentUser?.photoUrl?.toString(),
-            downloadUri.toString(),
-            text
-        )
-
-        db.collection("insta_posts").add(post).await()
-
-        isProgress.postValue(false)
-    }*/

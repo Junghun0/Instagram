@@ -35,8 +35,6 @@ class SearchFragment : Fragment() {
         val query = FirebaseFirestore.getInstance()
             .collection("insta_posts")
 
-        print(query.toString())
-
         val options = FirestoreRecyclerOptions.Builder<Post>()
             .setQuery(query, Post::class.java)
             .build()

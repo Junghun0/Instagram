@@ -128,7 +128,7 @@
             app:layout_constraintTop_toBottomOf="@+id/circleImageView2" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/account_recylcerview"
+            android:id="@+id/account_recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
