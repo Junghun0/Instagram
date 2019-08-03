@@ -53,7 +53,6 @@ class PostDetailFragment : Fragment() {
                         findNavController().navigateUp()
                     }
                 }
-
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false

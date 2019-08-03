@@ -3,18 +3,18 @@ package com.example.instagram.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.LoginActivity
 import com.example.instagram.R
+import com.example.instagram.databinding.AccountItemLayoutBinding
 import com.example.instagram.databinding.FragmentAccountBinding
 import com.example.instagram.model.CreatePostViewModel
 import com.example.instagram.model.Post
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -28,8 +28,7 @@ class AccountFragment : Fragment() {
     private lateinit var viewModel: CreatePostViewModel
     private lateinit var email: String
     private lateinit var adapter: AccountAdapter
-    private val db = FirebaseFirestore.getInstance()
-    private val list = arrayListOf<Post>()
+    private val user = FirebaseAuth.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,36 +56,16 @@ class AccountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(CreatePostViewModel::class.java)
 
-        adapter = AccountAdapter{
-            Toast.makeText(requireContext(),"click",Toast.LENGTH_SHORT)
-        }
-        account_recyclerView.layoutManager = GridLayoutManager(requireContext(),3)
-        account_recyclerView.adapter = adapter
-    }
+        val query = FirebaseFirestore.getInstance()
+            .collection("insta_posts")
+            .whereEqualTo("email",user.currentUser?.email)
 
-    private fun getAllPosts(email: String){
-        var posts: Post
-        db.collection("insta_posts")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    if (document.data["email"] == email) {
-                        posts = Post(
-                            document.data["email"].toString(),
-                            document.data["nickName"].toString(),
-                            document.data["profileUrl"].toString(),
-                            document.data["imageUrl2"].toString(),
-                            document.data["description"].toString()
-                        )
-                        list.add(posts)
-                    }
-                }
-                adapter.item = list
-                Log.e("size123123",""+list.size)
-            }
-            .addOnFailureListener { exception ->
-                Log.e("getallposts", "Error getting documents: ", exception)
-            }
+        val options = FirestoreRecyclerOptions.Builder<Post>()
+            .setQuery(query, Post::class.java)
+            .build()
+
+        adapter = AccountAdapter(options)
+        account_recyclerView.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -106,26 +85,33 @@ class AccountFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    class AccountAdapter(private val clickListener: (accountPost: Post) -> Unit) :
-        RecyclerView.Adapter<AccountAdapter.AccountViewHolder>() {
-        var item = arrayListOf<Post>()
+    override fun onStart() {
+        super.onStart()
+        adapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter.stopListening()
+    }
+
+    class AccountAdapter(
+        options: FirestoreRecyclerOptions<Post>
+    ) : FirestoreRecyclerAdapter<Post, AccountAdapter.AccountViewHolder>(options) {
+
+        class AccountViewHolder(val binding: AccountItemLayoutBinding) :
+            RecyclerView.ViewHolder(binding.root)
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
-            val viewHolder = AccountViewHolder(FragmentAccountBinding.bind(view))
-            view.setOnClickListener {
-                clickListener.invoke(item[viewHolder.adapterPosition])
-            }
-            return viewHolder
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.account_item_layout, parent, false)
+            val binding = AccountItemLayoutBinding.bind(view)
+            return AccountViewHolder(binding)
         }
 
-        override fun getItemCount() = item.size
-
-        override fun onBindViewHolder(holder: AccountViewHolder, position: Int) {
-            holder.binding.post = item[position]
+        override fun onBindViewHolder(holder: AccountViewHolder, position: Int, model: Post) {
+            holder.binding.post = model
         }
-
-        class AccountViewHolder(val binding: FragmentAccountBinding): RecyclerView.ViewHolder(binding.root)
     }
 }
 

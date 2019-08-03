@@ -84,7 +84,6 @@ class SearchFragment : Fragment() {
                 callback.invoke(holder.binding.imageViewSquare, model)
             }
         }
-
     }
 
 }
