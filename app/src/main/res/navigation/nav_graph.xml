@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/tabFragment"
         android:name="com.example.instagram.ui.TabFragment"
-        android:label="fragment_tab"
+        android:label="Instagram"
         tools:layout="@layout/fragment_tab" >
         <action
             android:id="@+id/action_tabFragment_to_createPostFragment"

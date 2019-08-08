@@ -64,9 +64,12 @@ class AccountFragment : Fragment() {
             .setQuery(query, Post::class.java)
             .build()
 
+        query.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            binding.postCount = querySnapshot?.size()
+        }
+
         adapter = AccountAdapter(options)
         account_recyclerView.adapter = adapter
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
