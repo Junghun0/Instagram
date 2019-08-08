@@ -20,6 +20,9 @@
         <variable
             name="user"
             type="com.google.firebase.auth.FirebaseUser" />
+        <variable
+            name="postCount"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,7 +59,8 @@
             android:layout_marginStart="33dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="TextView"
+            android:text="@{String.valueOf(postCount)}"
+            tools:text="test"
             app:layout_constraintBottom_toTopOf="@+id/textView8"
             app:layout_constraintStart_toEndOf="@+id/circleImageView2"
             app:layout_constraintTop_toBottomOf="@+id/account_id" />
@@ -67,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="34dp"
             android:layout_marginBottom="20dp"
-            android:text="TextView"
+            tools:text="test"
             app:layout_constraintBottom_toTopOf="@+id/textView9"
             app:layout_constraintStart_toEndOf="@+id/account_total" />
 
@@ -76,10 +80,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="35dp"
+            android:layout_marginEnd="32dp"
             android:layout_marginBottom="20dp"
-            android:text="TextView"
             app:layout_constraintBottom_toTopOf="@+id/textView10"
-            app:layout_constraintStart_toEndOf="@+id/account_flower" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/account_flower"
+            tools:text="test" />
 
         <TextView
             android:id="@+id/textView8"
@@ -98,24 +104,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="44dp"
+            android:layout_marginEnd="48dp"
             android:layout_marginBottom="20dp"
             android:gravity="center"
             android:text="팔로워"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintEnd_toStartOf="@+id/textView10"
             app:layout_constraintStart_toEndOf="@+id/textView8" />
 
         <TextView
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
+            android:layout_marginEnd="60dp"
             android:layout_marginBottom="20dp"
             android:gravity="center"
             android:text="팔로잉"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toTopOf="@+id/button"
-            app:layout_constraintStart_toEndOf="@+id/textView9" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/button"

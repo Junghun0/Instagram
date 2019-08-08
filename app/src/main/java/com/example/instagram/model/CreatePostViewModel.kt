@@ -1,13 +1,11 @@
 package com.example.instagram.model
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
@@ -17,7 +15,6 @@ import java.io.InputStream
 class CreatePostViewModel : ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
-    private val user = FirebaseAuth.getInstance()
     val isProgress = MutableLiveData<Boolean>()
 
 
@@ -69,19 +66,5 @@ class CreatePostViewModel : ViewModel() {
             isProgress.postValue(false)
             callback.invoke()
         }
-    }
-
-    fun getUserAllPosts() {
-        db.collection("insta_posts")
-            .whereEqualTo("email", user.currentUser?.email)
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    Log.e("getAllPosts", "${document.id} => ${document.data["imageUrl2"]}")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.e("getAllPosts", "Error getting documents: ", exception)
-            }
     }
 }

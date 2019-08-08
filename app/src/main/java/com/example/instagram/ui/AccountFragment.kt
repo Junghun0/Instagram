@@ -66,6 +66,7 @@ class AccountFragment : Fragment() {
 
         adapter = AccountAdapter(options)
         account_recyclerView.adapter = adapter
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
